@@ -1,21 +1,31 @@
 {
-  "name": "YourVoice",
-  "version": "0.0.0",
+  "name": "your-voice-backend",
+  "type": "module",
+  "version": "1.0.0",
+  "main": "dist/server.js",
   "scripts": {
-    "start": "node ./bin/www",
-    "devstart": "nodemon ./bin/www"
+    "build": "run; tsc",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "start": "npm run build; node dist/server.js",
+    "start:dev": "npx tsx watch src/server.ts"
   },
   "dependencies": {
+    "@types/jsonwebtoken": "^9.0.7",
     "bcrypt": "^5.1.1",
-    "connect-mongo": "^5.1.0",
-    "cookie-parser": "^1.4.7",
-    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
     "express": "^4.21.1",
-    "express-session": "^1.18.1",
-    "hbs": "^4.2.0",
-    "mongoose": "^5.13.15",
-    "morgan": "^1.10.0",
-    "nodemon": "^3.1.7",
-    "path": "^0.12.7"
+    "express-async-errors": "^3.1.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^5.9.2",
+    "mongoose": "^8.8.4",
+    "nodemon": "^3.1.7"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/express": "^5.0.0",
+    "prettier": "^3.4.2",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
   }
 }
