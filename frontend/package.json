@@ -3,10 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start:dev": "next dev --turbopack",
+    "start:dev": "next dev --turbopack -p $(grep FRONTEND_PORT .env | cut -d '=' -f2)",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
+    "lint": "npx eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
   },
   "dependencies": {
     "@nextui-org/button": "2.2.3",

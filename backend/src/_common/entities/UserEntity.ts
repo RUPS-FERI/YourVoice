@@ -4,11 +4,12 @@ import {
   Schema,
 } from 'mongoose';
 import { genSalt, hash } from 'bcrypt';
+import type { MongoError } from 'mongodb';
 
 const UserSchema = new Schema(
   {
     username: { type: String, required: true, unique: true },
-    email: { type: String, required: true, unique: true, match: /.+\@.+\..+/ },
+    email: { type: String, required: true, unique: true, match: /.+@.+\..+/ },
     password: {
       type: String,
       required: true,
@@ -44,7 +45,7 @@ UserSchema.pre(
 
 UserSchema.post(
   'save',
-  (error: any, next: CallbackWithoutResultAndOptionalError) => {
+  (error: MongoError, next: CallbackWithoutResultAndOptionalError) => {
     if (error.code === 11000)
       next(
         new Error('This user already exists, use another username or email.'),

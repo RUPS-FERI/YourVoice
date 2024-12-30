@@ -8,6 +8,6 @@ RUN npm install
 
 COPY . .
 
-EXPOSE ${APP_PORT}
+EXPOSE ${BACKEND_PORT}
 
-CMD ["sh", "-c", "npm install && if [ \"${ENV}\" = dev ]; then npm run start:dev; else npm start; fi"]
+CMD ["sh", "-c", "if [ \"${ENV}\" = dev ]; then npm run start:dev; else npm start; fi"]
