@@ -23,7 +23,6 @@ export default function Home() {
           </span>
           <Button color="primary">Start Now</Button>
         </div>
-
         <div className="flex-1 ml-5">
           <Image
             alt="NextUI hero Image"
