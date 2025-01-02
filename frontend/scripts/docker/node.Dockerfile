@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE ${FRONTEND_PORT}
 
-CMD ["sh", "-c", "if [ \"${ENV}\" = dev ]; then npm run start:dev; else npm start; fi;"]
+CMD ["sh", "-c", "if [ \"${ENV}\" = dev ]; then npx next dev --turbopack -p ${FRONTEND_PORT}; else npx next start -p ${FRONTEND_PORT}; fi;"]

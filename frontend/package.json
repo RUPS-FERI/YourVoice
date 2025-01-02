@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start:dev": "next dev --turbopack -p $(grep FRONTEND_PORT .env | cut -d '=' -f2)",
+    "start:dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "npx eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
