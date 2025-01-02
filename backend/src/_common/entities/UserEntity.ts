@@ -42,15 +42,14 @@ UserSchema.pre(
     next();
   },
 );
-
 UserSchema.post(
   'save',
   (error: MongoError, next: CallbackWithoutResultAndOptionalError) => {
-    if (error.code === 11000)
+    if (error.code == 'E11000')
       next(
         new Error('This user already exists, use another username or email.'),
       );
-    else next(error);
+    else next();
   },
 );
 

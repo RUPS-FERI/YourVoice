@@ -9,7 +9,6 @@ export const signup = async (req: Request, res: Response) => {
   const password: string = req.body.password;
 
   const user = await createUser(username, email, password);
-
   res.status(HttpStatusCode.CREATED).json({
     message: 'User successfully registered',
     id: user._id,

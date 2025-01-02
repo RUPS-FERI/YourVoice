@@ -3,7 +3,7 @@
 import React from "react";
 import { Button, Form, Input, Link } from "@nextui-org/react";
 
-export default function SignIn() {
+export default function Signin() {
   const [action, setAction] = React.useState("");
 
   return (

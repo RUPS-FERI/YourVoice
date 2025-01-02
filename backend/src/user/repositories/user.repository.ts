@@ -6,11 +6,11 @@ export const createUser = async (
   email: string,
   password: string,
 ) => {
-  return UserEntity.create({
-    email: email,
-    username: username,
-    password: password,
-  });
+    return UserEntity.create({
+      email: email,
+      username: username,
+      password: password,
+    });
 };
 
 export const getUserById = async (id: string | Types.ObjectId) =>
