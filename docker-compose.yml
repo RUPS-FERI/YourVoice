@@ -9,7 +9,9 @@ services:
       context: backend
       dockerfile: scripts/docker/node.Dockerfile
     restart: always
-    env_file: backend/.env
+    env_file:
+      - .env
+      - backend/.env
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
     volumes:
@@ -22,7 +24,9 @@ services:
     build:
       context: frontend
       dockerfile: scripts/docker/node.Dockerfile
-    env_file: frontend/.env
+    env_file:
+      - .env
+      - frontend/.env
     restart: always
     ports:
       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
