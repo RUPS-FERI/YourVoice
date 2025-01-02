@@ -18,7 +18,6 @@ const UserSchema = new Schema(
         message: () =>
           'Password must be at least 8 characters, contain at least 1 capital letter and number',
       },
-      select: false,
     },
     role: {
       type: String,
@@ -42,9 +41,10 @@ UserSchema.pre(
     next();
   },
 );
+
 UserSchema.post(
   'save',
-  (error: MongoError, next: CallbackWithoutResultAndOptionalError) => {
+  function (error: MongoError, next: CallbackWithoutResultAndOptionalError) {
     if (error.code == 'E11000')
       next(
         new Error('This user already exists, use another username or email.'),

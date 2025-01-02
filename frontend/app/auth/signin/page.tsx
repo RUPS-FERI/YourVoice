@@ -2,9 +2,27 @@
 
 import React from "react";
 import { Button, Form, Input, Link } from "@nextui-org/react";
+import { Alert } from "@nextui-org/alert";
+
+import { AuthService } from "@/_common/services/auth.service";
 
 export default function Signin() {
-  const [action, setAction] = React.useState("");
+  const [error, serError] = React.useState("");
+
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const payload = Object.fromEntries(new FormData(event.currentTarget));
+
+    try {
+      await AuthService.signin({
+        username: payload.username as string,
+        password: payload.password as string,
+      });
+      serError("");
+    } catch (err) {
+      serError((err as Error).message);
+    }
+  };
 
   return (
     <div className="flex flex-col justify-center w-full max-w-xl mx-auto gap-10">
@@ -12,13 +30,7 @@ export default function Signin() {
       <Form
         className="w-full gap-7"
         validationBehavior="native"
-        onReset={() => setAction("reset")}
-        onSubmit={(e) => {
-          e.preventDefault();
-          let data = Object.fromEntries(new FormData(e.currentTarget));
-
-          setAction(`submit ${JSON.stringify(data)}`);
-        }}
+        onSubmit={onSubmit}
       >
         <Input
           isRequired
@@ -45,15 +57,11 @@ export default function Signin() {
             Signup
           </Link>
         </p>
+        {error && <Alert color={"danger"}>{error}</Alert>}
+
         <Button className={"w-full"} color="primary" type="submit">
           Signin
         </Button>
-
-        {action && (
-          <div className="text-small text-default-500">
-            Action: <code>{action}</code>
-          </div>
-        )}
       </Form>
     </div>
   );
