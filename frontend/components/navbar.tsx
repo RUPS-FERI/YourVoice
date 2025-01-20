@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Navbar as NextUINavbar,
   NavbarBrand,
@@ -8,12 +10,23 @@ import { link as linkStyles } from "@nextui-org/theme";
 import Link from "next/link";
 import clsx from "clsx";
 import { Button } from "@nextui-org/button";
+import { useEffect, useState } from "react";
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { RouteProtectionType } from "@/utils/RouteProtectionType";
+import { AuthService } from "@/_common/services/auth.service";
 
 export const Navbar = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(AuthService.get.loggedIn);
+    AuthService.get.isUserLoggedIn$.subscribe((isLoggedIn) => {
+      setIsLoggedIn(isLoggedIn);
+    });
+  });
+
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
@@ -48,8 +61,39 @@ export const Navbar = () => {
           {siteConfig.rightNavItems
             .filter(
               (item) =>
-                item.protected === RouteProtectionType.ONLY_NON_AUTHENTICATED,
+                item.protected === RouteProtectionType.ONLY_NON_AUTHENTICATED &&
+                !isLoggedIn,
             )
+            .map((item) => (
+              <NavbarItem key={item.href}>
+                <Button as={Link} color={"primary"} href={item.href}>
+                  {item.label}
+                </Button>
+              </NavbarItem>
+            ))}
+          {siteConfig.rightNavItems
+            .filter(
+              (item) =>
+                item.protected === RouteProtectionType.ONLY_AUTHENTICATED &&
+                isLoggedIn,
+            )
+            .map((item) => (
+              <NavbarItem key={item.href}>
+                <Button
+                  as={Link}
+                  color={"primary"}
+                  href={item.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    item.action();
+                  }}
+                >
+                  {item.label}
+                </Button>
+              </NavbarItem>
+            ))}
+          {siteConfig.rightNavItems
+            .filter((item) => item.protected === RouteProtectionType.EVERYONE)
             .map((item) => (
               <NavbarItem key={item.href}>
                 <Button as={Link} color={"primary"} href={item.href}>

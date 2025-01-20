@@ -1,4 +1,7 @@
+"use client";
+
 import { RouteProtectionType } from "@/utils/RouteProtectionType";
+import { AuthService } from "@/_common/services/auth.service";
 
 export type SiteConfig = typeof siteConfig;
 
@@ -9,23 +12,27 @@ export const siteConfig = {
     {
       label: "Home",
       href: "/",
+      action: () => {},
       protected: RouteProtectionType.EVERYONE,
     },
   ],
   rightNavItems: [
     {
       label: "Logout",
-      href: "/logout",
+      href: "",
+      action: () => AuthService.get.signout(),
       protected: RouteProtectionType.ONLY_AUTHENTICATED,
     },
     {
       label: "Signin",
       href: "/auth/signin",
+      action: () => {},
       protected: RouteProtectionType.ONLY_NON_AUTHENTICATED,
     },
     {
       label: "Signup",
       href: "/auth/signup",
+      action: () => {},
       protected: RouteProtectionType.ONLY_NON_AUTHENTICATED,
     },
   ],

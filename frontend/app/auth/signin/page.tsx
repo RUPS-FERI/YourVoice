@@ -5,20 +5,22 @@ import { Button, Form, Input, Link } from "@nextui-org/react";
 import { Alert } from "@nextui-org/alert";
 
 import { AuthService } from "@/_common/services/auth.service";
+import { useRedirectIfAuthenticated } from "@/_common/hooks/auth.hook";
 
 export default function Signin() {
   const [error, serError] = React.useState("");
+
+  useRedirectIfAuthenticated();
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const payload = Object.fromEntries(new FormData(event.currentTarget));
 
     try {
-      await AuthService.signin({
+      await AuthService.get.signin({
         username: payload.username as string,
         password: payload.password as string,
       });
-      serError("");
     } catch (err) {
       serError((err as Error).message);
     }
@@ -34,6 +36,7 @@ export default function Signin() {
       >
         <Input
           isRequired
+          autoComplete={"username"}
           errorMessage="Username or password is inccorect"
           label="Username"
           labelPlacement="outside"
@@ -44,6 +47,7 @@ export default function Signin() {
 
         <Input
           isRequired
+          autoComplete={"current-password"}
           errorMessage="Username or password is inccorect"
           label="Password"
           labelPlacement="outside"

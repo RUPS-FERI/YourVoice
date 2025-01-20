@@ -37,7 +37,7 @@ export default function Signup() {
     const data = Object.fromEntries(new FormData(e.currentTarget));
 
     try {
-      await AuthService.signup({
+      await AuthService.get.signup({
         username: data.username as string,
         password: data.password as string,
         email: data.email as string,

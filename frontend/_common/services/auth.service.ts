@@ -1,42 +1,50 @@
+import { BehaviorSubject } from "rxjs";
+
+import { ApiRequestService } from "@/_common/services/url-builder.service";
 import { HttpStatusCode } from "@/utils/HttpStatusCode";
 
-export namespace AuthService {
-  export const signup = async (payload: {
-    username: string;
-    password: string;
-    email: string;
-  }) => {
-    const response = await fetch("http://localhost:3000/api/auth/signup", {
-      method: "POST",
-      body: JSON.stringify(payload),
-      headers: {
-        "Content-Type": "application/json",
-      },
+export class AuthService {
+  private static instance: AuthService | null = null;
+  private isUserLoggedIn = new BehaviorSubject<boolean>(
+    localStorage.getItem("JWT_TOKEN") !== null,
+  );
+  readonly isUserLoggedIn$ = this.isUserLoggedIn.asObservable();
+
+  private constructor() {}
+
+  static get get(): AuthService {
+    if (this.instance === null) {
+      this.instance = new AuthService();
+    }
+
+    return this.instance;
+  }
+
+  get loggedIn() {
+    return this.isUserLoggedIn.value;
+  }
+
+  async signup(payload: { username: string; password: string; email: string }) {
+    await ApiRequestService.post({
+      path: ["auth", "signup"],
+      expectedCode: HttpStatusCode.CREATED,
+      body: payload,
+    });
+  }
+
+  async signin(payload: { username: string; password: string }) {
+    const { token } = await ApiRequestService.post<{ token: string }>({
+      path: ["auth", "signin"],
+      expectedCode: HttpStatusCode.OK,
+      body: payload,
     });
 
-    if (response.status === HttpStatusCode.CREATED.valueOf()) {
-      return response.json();
-    }
-    throw new Error(
-      "Registration failed. Username or email might already exist",
-    );
-  };
+    localStorage.setItem("JWT_TOKEN", `bearer ${token}`);
+    this.isUserLoggedIn.next(true);
+  }
 
-  export const signin = async (payload: {
-    username: string;
-    password: string;
-  }) => {
-    const response = await fetch("http://localhost:3000/api/auth/signin", {
-      method: "POST",
-      body: JSON.stringify(payload),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (response.status === HttpStatusCode.OK.valueOf()) {
-      return response.json();
-    }
-    throw new Error("Incorrect username or password");
-  };
+  signout(): void {
+    localStorage.removeItem("JWT_TOKEN");
+    this.isUserLoggedIn.next(false);
+  }
 }
