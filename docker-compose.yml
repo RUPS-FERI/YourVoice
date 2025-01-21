@@ -1,0 +1,43 @@
+name: your-voice
+networks:
+  app-network:
+    driver: bridge
+
+services:
+  rest-api:
+    build:
+      context: backend
+      dockerfile: scripts/docker/node.Dockerfile
+    restart: always
+    env_file:
+      - .env
+      - backend/.env
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+    volumes:
+      - ./backend:/app/rest-api
+      - ./backend/node_modules:/app/rest-api/node_modules
+    networks:
+      - app-network
+
+  react-app:
+    build:
+      context: frontend
+      dockerfile: scripts/docker/node.Dockerfile
+    env_file:
+      - .env
+      - frontend/.env
+    restart: always
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+    volumes:
+      - ./frontend:/app/react-app
+      - /app/react-app/node_modules
+      - /app/react-app/.next
+    networks:
+      - app-network
+volumes:
+  mongo-data:
+    driver: local
+
+

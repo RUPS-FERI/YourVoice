@@ -5,7 +5,7 @@ export const globalErrorHandler = async (
   error: Error,
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   const apiError =
     error instanceof ApiError ? error : ApiError.fromError(error);

@@ -13,7 +13,7 @@ export const loginUser = async (username: string, password: string) => {
     });
   }
 
-  const isPasswordValid = await compare(user.password, password);
+  const isPasswordValid = await compare(password, user.password);
 
   if (!isPasswordValid) {
     throw new AuthorizationError({

@@ -1,0 +1,23 @@
+.title {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.card-body-info button {
+    margin-top: 50px;
+    width: 100%;
+}
+
+@media screen and (max-width: 900px) {
+    .card-body.flex {
+        flex-direction: column;
+    }
+
+    .card-body div {
+        margin: 0;
+    }
+
+    .card-body img {
+        display: none;
+    }
+}

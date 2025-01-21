@@ -28,8 +28,8 @@ export const getPostById = async (req: Request, res: Response) => {
 
 export const createPost = async (req: Request, res: Response) => {
   const title = req.body.title;
-  const content = req.body.title;
-  const category = req.body.title;
+  const content = req.body.content;
+  const category = req.body.category;
 
   const post = await createUserPost({
     title: title,

@@ -10,7 +10,6 @@ export const isAuthGuard = (
   const authorization = req.headers.authorization;
   if (!authorization)
     throw new AuthorizationError({ message: 'Not authorized' });
-
   try {
     const token = authorization.split(' ')[1];
     req.user = varifyJwt(token!);

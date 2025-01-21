@@ -4,11 +4,12 @@ import {
   Schema,
 } from 'mongoose';
 import { genSalt, hash } from 'bcrypt';
+import type { MongoError } from 'mongodb';
 
 const UserSchema = new Schema(
   {
     username: { type: String, required: true, unique: true },
-    email: { type: String, required: true, unique: true, match: /.+\@.+\..+/ },
+    email: { type: String, required: true, unique: true, match: /.+@.+\..+/ },
     password: {
       type: String,
       required: true,
@@ -17,7 +18,6 @@ const UserSchema = new Schema(
         message: () =>
           'Password must be at least 8 characters, contain at least 1 capital letter and number',
       },
-      select: false,
     },
     role: {
       type: String,
@@ -44,12 +44,12 @@ UserSchema.pre(
 
 UserSchema.post(
   'save',
-  (error: any, next: CallbackWithoutResultAndOptionalError) => {
-    if (error.code === 11000)
+  function (error: MongoError, next: CallbackWithoutResultAndOptionalError) {
+    if (error.code == 'E11000')
       next(
         new Error('This user already exists, use another username or email.'),
       );
-    else next(error);
+    else next();
   },
 );
 
