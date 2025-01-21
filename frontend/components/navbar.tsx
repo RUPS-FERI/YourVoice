@@ -15,7 +15,8 @@ import { useEffect, useState } from "react";
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { RouteProtectionType } from "@/utils/RouteProtectionType";
-import { AuthService } from "@/_common/services/auth.service";
+import { AuthService } from "@/app/_common/services/auth.service";
+import CreatePostDialog from "@/app/_common/components/dialogs/create-post.dialog";
 
 export const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -58,6 +59,7 @@ export const Navbar = () => {
         justify="end"
       >
         <ul className="hidden lg:flex gap-4 justify-start ml-2">
+          {isLoggedIn ? <CreatePostDialog name={"Create"} /> : <span />}
           {siteConfig.rightNavItems
             .filter(
               (item) =>
@@ -65,7 +67,7 @@ export const Navbar = () => {
                 !isLoggedIn,
             )
             .map((item) => (
-              <NavbarItem key={item.href}>
+              <NavbarItem key={item.label}>
                 <Button as={Link} color={"primary"} href={item.href}>
                   {item.label}
                 </Button>
@@ -78,7 +80,7 @@ export const Navbar = () => {
                 isLoggedIn,
             )
             .map((item) => (
-              <NavbarItem key={item.href}>
+              <NavbarItem key={item.label}>
                 <Button
                   as={Link}
                   color={"primary"}
@@ -95,7 +97,7 @@ export const Navbar = () => {
           {siteConfig.rightNavItems
             .filter((item) => item.protected === RouteProtectionType.EVERYONE)
             .map((item) => (
-              <NavbarItem key={item.href}>
+              <NavbarItem key={item.label}>
                 <Button as={Link} color={"primary"} href={item.href}>
                   {item.label}
                 </Button>

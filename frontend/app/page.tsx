@@ -1,7 +1,10 @@
+"use client";
+
 import "./page.css";
 import { Image } from "@nextui-org/image";
 import { Card, CardBody } from "@nextui-org/card";
 import { Button } from "@nextui-org/button";
+import React from "react";
 
 export default function Home() {
   return (

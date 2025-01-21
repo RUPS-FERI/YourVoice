@@ -1,6 +1,6 @@
 import { BehaviorSubject } from "rxjs";
 
-import { ApiRequestService } from "@/_common/services/url-builder.service";
+import { ApiRequestService } from "@/app/_common/services/url-builder.service";
 import { HttpStatusCode } from "@/utils/HttpStatusCode";
 
 export class AuthService {

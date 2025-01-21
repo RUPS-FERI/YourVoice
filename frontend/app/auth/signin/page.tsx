@@ -4,8 +4,8 @@ import React from "react";
 import { Button, Form, Input, Link } from "@nextui-org/react";
 import { Alert } from "@nextui-org/alert";
 
-import { AuthService } from "@/_common/services/auth.service";
-import { useRedirectIfAuthenticated } from "@/_common/hooks/auth.hook";
+import { AuthService } from "@/app/_common/services/auth.service";
+import { useRedirectIfAuthenticated } from "@/app/_common/hooks/auth.hook";
 
 export default function Signin() {
   const [error, serError] = React.useState("");

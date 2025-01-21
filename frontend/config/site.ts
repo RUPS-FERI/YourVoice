@@ -1,7 +1,7 @@
 "use client";
 
 import { RouteProtectionType } from "@/utils/RouteProtectionType";
-import { AuthService } from "@/_common/services/auth.service";
+import { AuthService } from "@/app/_common/services/auth.service";
 
 export type SiteConfig = typeof siteConfig;
 
@@ -13,7 +13,12 @@ export const siteConfig = {
       label: "Home",
       href: "/",
       action: () => {},
-      protected: RouteProtectionType.EVERYONE,
+      protected: RouteProtectionType.ONLY_AUTHENTICATED,
+    },
+    {
+      label: "Posts",
+      href: "/posts",
+      protected: RouteProtectionType.ONLY_AUTHENTICATED,
     },
   ],
   rightNavItems: [

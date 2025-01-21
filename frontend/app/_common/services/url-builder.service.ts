@@ -26,19 +26,18 @@ export namespace ApiRequestService {
     body: JSON.stringify(params.body),
     headers: {
       "Content-Type": "application/json",
+      Authorization: localStorage.getItem("JWT_TOKEN") ?? "",
       ...(params.headers || {}),
     },
   });
 
-  export async function get<T>(
-    params: RequestParamsWithExpectedCode,
-  ): Promise<T> {
+  export async function get<T>(params: RequestParams): Promise<T> {
     const response = await fetch(
       buildUrl(params.path),
       buildFetchBody(params, "GET"),
     );
 
-    if (response.status !== HttpStatusCode.CREATED.valueOf()) {
+    if (response.status !== HttpStatusCode.OK.valueOf()) {
       throw new Error(response.statusText);
     }
 

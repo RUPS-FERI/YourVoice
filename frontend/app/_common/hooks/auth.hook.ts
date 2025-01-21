@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-import { AuthService } from "@/_common/services/auth.service";
+import { AuthService } from "@/app/_common/services/auth.service";
 
 export const useRedirectIfAuthenticated = (redirectTo = "/") => {
   const router = useRouter();

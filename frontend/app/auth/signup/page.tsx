@@ -4,7 +4,7 @@ import React, { FormEvent } from "react";
 import { Button, Form, Input, Link } from "@nextui-org/react";
 import { Alert } from "@nextui-org/alert";
 
-import { AuthService } from "@/_common/services/auth.service";
+import { AuthService } from "@/app/_common/services/auth.service";
 
 export default function Signup() {
   const [password, setPassword] = React.useState<null | string>(null);
